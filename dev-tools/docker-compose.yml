@@ -1,0 +1,53 @@
+services:
+  # frontend:
+  #   container_name: client
+  #   build:
+  #     context: ../client/
+  #     dockerfile: ./.dockerfile/Dockerfile
+  #   ports:
+  #     - "5173:5173"
+  #   volumes: # データの永続化
+  #     - ../client:/work/app:cached # ホストのクライアントディレクトリとコンテナ内の作業ディレクトリを同期
+  #   # - ./:/app:cached # ホストのカレントディレクトリとコンテナ内の作業ディレクトリを同期
+  #   # ↓↓↓コメントアウトしたまま↓↓↓
+  #   # - node_modules:/app/node_modules # 特定のパスを独立した名前付きボリュームとして定義
+  #   environment: # 環境変数
+  #     - HOST=0.0.0.0 # localhost接続をする際に必要
+  #     - CHOKIDAR_USEPOLLING=true # ホットリロードを可能にする
+  #     # - NODE_OPTIONS=--max_old_space_size=4096
+  #   tty: true
+  #   command: sh -c "npm install && pnpm install && pnpm dev"
+
+  # sh -c "npm cache clean --force && npm install -g pnpm && pnpm dev"
+
+  db:
+    container_name: db
+    image: "postgres:13.1-alpine"
+    ports:
+      - "5555:5555"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # 永続ストレージのためのボリューム
+    # volumes:
+    # - postgres_data:${DB_ROOT_DIR} # DB Volumeとマウント
+    restart: always
+    hostname: db
+
+  backend:
+    container_name: backend
+    build: ../backend/.dockerfile
+    tty: true
+    volumes:
+      - ../backend:/work/backend
+    ports:
+      - 8083:8083
+    # environment:
+    # - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
