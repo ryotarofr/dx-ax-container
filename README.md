@@ -23,3 +23,8 @@ make run-b
 ```bash
 make run-e
 ```
+
+### TODO
+- [ ] FE, BEは別タブで開くように設定
+- [ ] TS関数追加
+- [ ] dioxusコンテナ追加
