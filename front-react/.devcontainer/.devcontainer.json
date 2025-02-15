@@ -1,0 +1,23 @@
+{
+	"name": "front-react",
+	"service": "front-web",
+	"workspaceFolder": "/work",
+	"dockerComposeFile": "docker-compose.yml",
+	"onCreateCommand": "pnpm install --force --shamefully-hoist --frozen-lockfile",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"SamKirkland.plop-templates",
+				"dbaeumer.vscode-eslint",
+				"stylelint.vscode-stylelint",
+				"vitest.explorer",
+				"johnstoncode.svn-scm",
+				"ygkn.storybook-opener",
+				"yzhang.markdown-all-in-one",
+				"ms-azuretools.vscode-docker",
+				"uctakeoff.vscode-counter"
+			]
+		}
+	},
+	"remoteUser": "node"
+}
